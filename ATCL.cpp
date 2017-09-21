@@ -97,8 +97,9 @@ int startATCL(int fd)
 	        } else if (rdlen < 0) {
 	            printf("Error from read: %d: %s\n", rdlen, strerror(errno));
 	        }
-
-	        if(buf[0]!='\x8F')
+            char re = '\x8F';
+            const char *er = &re;
+	        if(strcmp(reinterpret_cast<const char*>(buf),er))
 	        {printf("cant start ATCL"); return -1;}
 	        else {printf("ATCL protocol started");}
 	        return 0;
