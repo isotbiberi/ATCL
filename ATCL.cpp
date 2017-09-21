@@ -117,8 +117,12 @@ int main()
                 printf("Error from write: %d, %d\n", wlen, errno);
             }
             tcdrain(fd);    /* delay for output */
-            sleep(1); //sleep in seconds
-            rdlen = read(fd, buf, sizeof(buf) - 1);
+           // sleep(1); //sleep in seconds
+
+
+            do
+            {
+                  rdlen = read(fd, buf, sizeof(buf) - 1);
                     if (rdlen > 0) {
             //#ifdef DISPLAY_STRING
                         buf[rdlen] = 0;
@@ -133,7 +137,8 @@ int main()
                     } else if (rdlen < 0) {
                         printf("Error from read: %d: %s\n", rdlen, strerror(errno));
                     }
-
+            }
+            while(buf[rdlen-1]!=';');
 
 
 
