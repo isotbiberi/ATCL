@@ -100,9 +100,9 @@ int startATCL(int fd)
             char re = '\x8F';
             const char *er = &re;
 	        if(strcmp(reinterpret_cast<const char*>(buf),er))
-	        {printf("cant start ATCL"); return -1;}
-	        else {printf("ATCL protocol started");}
-	        return 0;
+	        {printf("started ATCL"); return 0;}
+	        else {printf("ATCL protocol cant be started");}
+	        //return 0;
 
 
 }
