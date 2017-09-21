@@ -12,7 +12,8 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
-
+#include <string>
+#include<iostream>
 int set_interface_attribs(int fd, int speed)
 {
     struct termios tty;
@@ -119,7 +120,7 @@ int main()
             tcdrain(fd);    /* delay for output */
            // sleep(1); //sleep in seconds
 
-
+            std::string commandReturn;
             do
             {
                   rdlen = read(fd, buf, sizeof(buf) - 1);
@@ -127,20 +128,25 @@ int main()
             //#ifdef DISPLAY_STRING
                         buf[rdlen] = 0;
                         printf("Read %d: \"%s\"\n", rdlen, buf);
+                       
             //#else /* display hex */
-                        unsigned char *p;
+           /* 
+                       unsigned char *p;
                         printf("Read %d:", rdlen);
                         for (p = buf; rdlen-- > 0; p++)
                             printf(" 0x%x", *p);
                         printf("\n");
-            //#endif
+           */ 
+           //#endif
                     } else if (rdlen < 0) {
                         printf("Error from read: %d: %s\n", rdlen, strerror(errno));
                     }
+              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+             commandReturn.append(reinterpret_cast<const char*>(buf));
             }
             while(buf[rdlen-1]!=';');
 
-
+           std::cout<<"return message is " <<commandReturn;
 
 
         close(fd);
