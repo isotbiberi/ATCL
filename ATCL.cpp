@@ -112,12 +112,12 @@ int main()
 
 
 
-            wlen = write(fd, "!CGra" , 5);
-            if (wlen != 5) {
+            wlen = write(fd, "!EGcx;" , 6);
+            if (wlen != 6) {
                 printf("Error from write: %d, %d\n", wlen, errno);
             }
             tcdrain(fd);    /* delay for output */
-
+            sleep(1); //sleep in seconds
             rdlen = read(fd, buf, sizeof(buf) - 1);
                     if (rdlen > 0) {
             //#ifdef DISPLAY_STRING
