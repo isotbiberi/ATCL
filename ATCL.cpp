@@ -15,6 +15,8 @@
 #include <string>
 #include<iostream>
 #include"ATCLCommands.h"
+#include <bitset>
+int getReturnAsync(int fd);
 int sendCommand(std::string command,int fd)
 {
   int wlen;
@@ -25,17 +27,31 @@ int sendCommand(std::string command,int fd)
 	            tcdrain(fd);    /* delay for output */
 	            return 0;
 }
+bool isSpecial(unsigned char c)
+{
+	 std::bitset<8> IntBits=std::bitset<8>(c);
 
+	 bool isSpecial = IntBits.test(7);
+	 return isSpecial;
+
+}
 int getReturnSync(int fd)
 {
-	unsigned char buf[80];
+	 unsigned char buf[88];
 	 std::string commandReturn;
 	 int rdlen ;
+
 	            do
 	            {
 
 	                    rdlen = read(fd, buf, sizeof(buf) - 1);
 	                    if (rdlen > 0) {
+                        if(isSpecial(buf[0]))
+                        {
+                        	printf("special character returned");
+                        	getReturnAsync(fd);
+                        }
+
 	            //#ifdef DISPLAY_STRING
 	                        buf[rdlen] = 0;
 	                        printf("Read %d: \"%s\"\n", rdlen, buf);
@@ -57,12 +73,42 @@ int getReturnSync(int fd)
 	            }
 	            while(buf[rdlen-1]!=';');
 
-	           std::cout<<"return message is " <<commandReturn;
+	           std::cout<<"return value is " <<commandReturn;
 
 }
-int getReturnAsync()
+int getReturnAsync(int fd)
 {
+	unsigned char buf[88];
+		 std::string commandReturn;
+		 int rdlen ;
+		            do
+		            {
 
+		                    rdlen = read(fd, buf, sizeof(buf) - 1);
+		                    if (rdlen > 0) {
+		            //#ifdef DISPLAY_STRING
+		                        buf[rdlen] = 0;
+		                        printf("Read %d: \"%s\"\n", rdlen, buf);
+
+		            //#else /* display hex */
+		           /*
+		                       unsigned char *p;
+		                        printf("Read %d:", rdlen);
+		                        for (p = buf; rdlen-- > 0; p++)
+		                            printf(" 0x%x", *p);
+		                        printf("\n");
+		           */
+		           //#endif
+		                    } else if (rdlen < 0) {
+		                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+		                    }
+		              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+		             commandReturn.append(reinterpret_cast<const char*>(buf));
+		            }
+		            while(buf[rdlen-1]!=';');
+
+		           std::cout<<"Async message is " <<commandReturn;
+		           getReturnSync(fd);
 
 }
 
@@ -84,6 +130,11 @@ int startATCL(int fd)
 
 	        rdlen = read(fd, buf, sizeof(buf) - 1);
 	        if (rdlen > 0) {
+	        	 if(isSpecial(buf[0]))
+					{
+						printf("special character returned");
+						getReturnAsync(fd);
+					}
 	//#ifdef DISPLAY_STRING
 	            buf[rdlen] = 0;
 	            printf("Read %d: \"%s\"\n", rdlen, buf);
@@ -91,7 +142,7 @@ int startATCL(int fd)
 	            unsigned char *p;
 	            printf("Read %d:", rdlen);
 	            for (p = buf; rdlen-- > 0; p++)
-	                printf(" 0x%x", *p);
+	            printf(" 0x%x", *p);
 	            printf("\n");
 	//#endif
 	        } else if (rdlen < 0) {
