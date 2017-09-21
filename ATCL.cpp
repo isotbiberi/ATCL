@@ -14,6 +14,62 @@
 #include <unistd.h>
 #include <string>
 #include<iostream>
+#include"ATCLCommands.h"
+int sendCommand(std::string command,int fd)
+{
+  int wlen;
+  wlen = write(fd, reinterpret_cast<const void*>(command.c_str()) , 6);
+	            if (wlen != 6) {
+	                printf("Error from write: %d, %d\n", wlen, errno);
+	            }
+	            tcdrain(fd);    /* delay for output */
+	            return 0;
+}
+
+int getReturnSync(int fd)
+{
+	unsigned char buf[80];
+	 std::string commandReturn;
+	 int rdlen ;
+	            do
+	            {
+
+	                    rdlen = read(fd, buf, sizeof(buf) - 1);
+	                    if (rdlen > 0) {
+	            //#ifdef DISPLAY_STRING
+	                        buf[rdlen] = 0;
+	                        printf("Read %d: \"%s\"\n", rdlen, buf);
+
+	            //#else /* display hex */
+	           /*
+	                       unsigned char *p;
+	                        printf("Read %d:", rdlen);
+	                        for (p = buf; rdlen-- > 0; p++)
+	                            printf(" 0x%x", *p);
+	                        printf("\n");
+	           */
+	           //#endif
+	                    } else if (rdlen < 0) {
+	                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+	                    }
+	              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+	             commandReturn.append(reinterpret_cast<const char*>(buf));
+	            }
+	            while(buf[rdlen-1]!=';');
+
+	           std::cout<<"return message is " <<commandReturn;
+
+}
+int getReturnAsync()
+{
+
+
+}
+
+
+
+
+
 int set_interface_attribs(int fd, int speed)
 {
     struct termios tty;
@@ -72,6 +128,7 @@ int main()
     int fd;
     int wlen;
 
+
     fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC);
     if (fd < 0) {
         printf("Error opening %s: %s\n", portname, strerror(errno));
@@ -111,42 +168,44 @@ int main()
             printf("Error from read: %d: %s\n", rdlen, strerror(errno));
         }
 
+sendCommand(GetEncoderCountsPerRevX,fd);
+getReturnSync(fd);
 
+//            wlen = write(fd, "!EGcx;" , 6);
+//            if (wlen != 6) {
+//                printf("Error from write: %d, %d\n", wlen, errno);
+//            }
+//            tcdrain(fd);    /* delay for output */
 
-            wlen = write(fd, "!EGcx;" , 6);
-            if (wlen != 6) {
-                printf("Error from write: %d, %d\n", wlen, errno);
-            }
-            tcdrain(fd);    /* delay for output */
            // sleep(1); //sleep in seconds
 
-            std::string commandReturn;
-            do
-            {
-                  rdlen = read(fd, buf, sizeof(buf) - 1);
-                    if (rdlen > 0) {
-            //#ifdef DISPLAY_STRING
-                        buf[rdlen] = 0;
-                        printf("Read %d: \"%s\"\n", rdlen, buf);
-                       
-            //#else /* display hex */
-           /* 
-                       unsigned char *p;
-                        printf("Read %d:", rdlen);
-                        for (p = buf; rdlen-- > 0; p++)
-                            printf(" 0x%x", *p);
-                        printf("\n");
-           */ 
-           //#endif
-                    } else if (rdlen < 0) {
-                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
-                    }
-              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
-             commandReturn.append(reinterpret_cast<const char*>(buf));
-            }
-            while(buf[rdlen-1]!=';');
-
-           std::cout<<"return message is " <<commandReturn;
+//            std::string commandReturn;
+//            do
+//            {
+//                  rdlen = read(fd, buf, sizeof(buf) - 1);
+//                    if (rdlen > 0) {
+//            //#ifdef DISPLAY_STRING
+//                        buf[rdlen] = 0;
+//                        printf("Read %d: \"%s\"\n", rdlen, buf);
+//
+//            //#else /* display hex */
+//           /*
+//                       unsigned char *p;
+//                        printf("Read %d:", rdlen);
+//                        for (p = buf; rdlen-- > 0; p++)
+//                            printf(" 0x%x", *p);
+//                        printf("\n");
+//           */
+//           //#endif
+//                    } else if (rdlen < 0) {
+//                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+//                    }
+//              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+//             commandReturn.append(reinterpret_cast<const char*>(buf));
+//            }
+//            while(buf[rdlen-1]!=';');
+//
+//           std::cout<<"return message is " <<commandReturn;
 
 
         close(fd);
