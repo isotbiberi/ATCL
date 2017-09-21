@@ -133,7 +133,7 @@ int startATCL(int fd)
 	        	 if(isSpecial(buf[0]))
 					{
 						printf("special character returned");
-						getReturnAsync(fd);
+
 					}
 	//#ifdef DISPLAY_STRING
 	            buf[rdlen] = 0;
