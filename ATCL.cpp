@@ -3,7 +3,7 @@
 // Author      : ismail baslar
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description :ATCL PROTOCOL Document 05/05/2017
 //============================================================================
 #include <errno.h>
 #include <fcntl.h>
@@ -48,7 +48,7 @@ int getReturnSync(int fd)
 	                    if (rdlen > 0) {
                         if(isSpecial(buf[0]))
                         {
-                        	printf("special character returned");
+                        	printf("special character returned\n");
                         	getReturnAsync(fd);
                         }
 
@@ -130,11 +130,7 @@ int startATCL(int fd)
 
 	        rdlen = read(fd, buf, sizeof(buf) - 1);
 	        if (rdlen > 0) {
-	        	 if(isSpecial(buf[0]))
-					{
-						printf("special character returned");
 
-					}
 	//#ifdef DISPLAY_STRING
 	            buf[rdlen] = 0;
 	            printf("Read %d: \"%s\"\n", rdlen, buf);
@@ -152,7 +148,7 @@ int startATCL(int fd)
             const char *er = &re;
 	        if(strcmp(reinterpret_cast<const char*>(buf),er))
 	        {printf("started ATCL"); return 0;}
-	        else {printf("ATCL protocol cant be started");}
+	        else {printf("ATCL protocol cant be started");return -1;}
 	        //return 0;
 
 
@@ -225,78 +221,16 @@ int main()
         printf("Error opening %s: %s\n", portname, strerror(errno));
         return -1;
     }
-    /*baudrate 115200, 8 bits, no parity, 1 stop bit */
+    /*baudrate 19200, 8 bits, no parity, 1 stop bit */
     set_interface_attribs(fd, B19200);
     //set_mincount(fd, 0);                /* set to pure timed read */
 
-//    /* simple output */
-//    unsigned char ch = '\xB1';//ATCL mode
-//    wlen = write(fd, &ch , 1);
-//    if (wlen != 1) {
-//        printf("Error from write: %d, %d\n", wlen, errno);
-//    }
-//    tcdrain(fd);    /* delay for output */
-//
-//
-//    /* simple noncanonical input */
-//
-//        unsigned char buf[80];
-//        int rdlen;
-//
-//        rdlen = read(fd, buf, sizeof(buf) - 1);
-//        if (rdlen > 0) {
-////#ifdef DISPLAY_STRING
-//            buf[rdlen] = 0;
-//            printf("Read %d: \"%s\"\n", rdlen, buf);
-////#else /* display hex */
-//            unsigned char *p;
-//            printf("Read %d:", rdlen);
-//            for (p = buf; rdlen-- > 0; p++)
-//                printf(" 0x%x", *p);
-//            printf("\n");
-////#endif
-//        } else if (rdlen < 0) {
-//            printf("Error from read: %d: %s\n", rdlen, strerror(errno));
-//        }
+
 startATCL(fd);
 sendCommand(GetEncoderCountsPerRevX,fd);
 getReturnSync(fd);
 
-//            wlen = write(fd, "!EGcx;" , 6);
-//            if (wlen != 6) {
-//                printf("Error from write: %d, %d\n", wlen, errno);
-//            }
-//            tcdrain(fd);    /* delay for output */
 
-           // sleep(1); //sleep in seconds
-
-//            std::string commandReturn;
-//            do
-//            {
-//                  rdlen = read(fd, buf, sizeof(buf) - 1);
-//                    if (rdlen > 0) {
-//            //#ifdef DISPLAY_STRING
-//                        buf[rdlen] = 0;
-//                        printf("Read %d: \"%s\"\n", rdlen, buf);
-//
-//            //#else /* display hex */
-//           /*
-//                       unsigned char *p;
-//                        printf("Read %d:", rdlen);
-//                        for (p = buf; rdlen-- > 0; p++)
-//                            printf(" 0x%x", *p);
-//                        printf("\n");
-//           */
-//           //#endif
-//                    } else if (rdlen < 0) {
-//                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
-//                    }
-//              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
-//             commandReturn.append(reinterpret_cast<const char*>(buf));
-//            }
-//            while(buf[rdlen-1]!=';');
-//
-//           std::cout<<"return message is " <<commandReturn;
 
 
         close(fd);
