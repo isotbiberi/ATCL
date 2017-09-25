@@ -75,7 +75,7 @@ int getReturnSync(int fd)
 	            }
 	            while(buf[rdlen-1]!=';');
 
-	           std::cout<<"Sync return value is " <<commandReturn;
+	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
 	           return 0;
 
 }
@@ -150,7 +150,7 @@ int startATCL(int fd)
             char re = '\x8F';
             const char *er = &re;
 	        if(strcmp(reinterpret_cast<const char*>(buf),er))
-	        {printf("started ATCL"); return 0;}
+	        {printf("started ATCL\n"); return 0;}
 	        else {printf("ATCL protocol cant be started");return -1;}
 	        //return 0;
 
