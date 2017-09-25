@@ -211,9 +211,9 @@ void set_mincount(int fd, int mcount)
 
 int main()
 {
-    char *portname = "/dev/ttyUSB0";
+    const char *portname = "/dev/ttyUSB0";
     int fd;
-    int wlen;
+   // int wlen;
 
 
     fd = open(portname, O_RDWR | O_NOCTTY | O_SYNC);
