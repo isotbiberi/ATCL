@@ -36,7 +36,7 @@ bool isSpecial(unsigned char c)
 	 return isSpecial;
 
 }
-int getReturnSync(int fd)
+std::string getReturnSync(int fd)
 {
 	 unsigned char buf[88];
 	 std::string commandReturn;
@@ -68,7 +68,7 @@ int getReturnSync(int fd)
 	           //#endif
 	                    } else if (rdlen < 0) {
 	                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
-	                        return -1;
+
 	                    }
 	             // printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
@@ -76,7 +76,7 @@ int getReturnSync(int fd)
 	            while(buf[rdlen-1]!=';');
 
 	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
-	           return 0;
+	           return commandReturn;
 
 }
 int getReturnAsync(int fd)
@@ -245,6 +245,37 @@ getReturnSync(fd);
 sendCommand(GetAz,fd);
 getReturnSync(fd);
 
+std::string alt="";
+alt.append(SetTargetAlt,0,5);
+alt.append("+80:00:00;");
+sendCommand(alt,fd);
+getReturnSync(fd);
+
+std::string az="";
+az.append(SetTargetAz,0,5);
+az.append("+80:00:00;");
+sendCommand(az,fd);
+getReturnSync(fd);
+
+sendCommand(GoToTargetAltAz,fd);
+
+std::string progress;
+do{
+	sendCommand(GetGoToProgressPercent,fd);
+	progress=getReturnSync(fd);
+	std::cout<<"slewing and progress is "<<progress<<std::endl;
+  }
+while(strcmp(progress.c_str(),"100"));
+
+
+sendCommand(GetRa,fd);
+getReturnSync(fd);
+sendCommand(GetDec,fd);
+getReturnSync(fd);
+sendCommand(GetAlt,fd);
+getReturnSync(fd);
+sendCommand(GetAz,fd);
+getReturnSync(fd);
 
 close(fd);
 }
