@@ -54,7 +54,7 @@ int getReturnSync(int fd)
 
 	            //#ifdef DISPLAY_STRING
 	                        buf[rdlen] = 0;
-	                        printf("Read %d: \"%s\"\n", rdlen, buf);
+	                      //  printf("Read %d: \"%s\"\n", rdlen, buf);
 
 	            //#else /* display hex */
 	           /*
@@ -69,12 +69,12 @@ int getReturnSync(int fd)
 	                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
 	                        return -1;
 	                    }
-	              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+	             // printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
 	            }
 	            while(buf[rdlen-1]!=';');
 
-	           std::cout<<"return value is " <<commandReturn;
+	           std::cout<<"Sync return value is " <<commandReturn;
 	           return 0;
 
 }
@@ -90,7 +90,7 @@ int getReturnAsync(int fd)
 		                    if (rdlen > 0) {
 		            //#ifdef DISPLAY_STRING
 		                        buf[rdlen] = 0;
-		                        printf("Read %d: \"%s\"\n", rdlen, buf);
+		                  //      printf("Read %d: \"%s\"\n", rdlen, buf);
 
 		            //#else /* display hex */
 		           /*
@@ -104,7 +104,7 @@ int getReturnAsync(int fd)
 		                    } else if (rdlen < 0) {
 		                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
 		                    }
-		              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+		            //  printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
 		             commandReturn.append(reinterpret_cast<const char*>(buf));
 		            }
 		            while(buf[rdlen-1]!=';');
