@@ -13,8 +13,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <string>
-#include<iostream>
-#include"ATCLCommands.h"
+#include <iostream>
+#include "ATCLCommands.h"
 #include <bitset>
 int getReturnAsync(int fd);
 int sendCommand(std::string command,int fd)
@@ -67,6 +67,7 @@ int getReturnSync(int fd)
 	           //#endif
 	                    } else if (rdlen < 0) {
 	                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+	                        return -1;
 	                    }
 	              printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
@@ -74,6 +75,7 @@ int getReturnSync(int fd)
 	            while(buf[rdlen-1]!=';');
 
 	           std::cout<<"return value is " <<commandReturn;
+	           return 0;
 
 }
 int getReturnAsync(int fd)
@@ -227,7 +229,7 @@ int main()
 
 
 startATCL(fd);
-sendCommand(GetEncoderCountsPerRevX,fd);
+sendCommand(GetRa,fd);
 getReturnSync(fd);
 
 

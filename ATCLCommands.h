@@ -1,7 +1,7 @@
 /*ENCODER*/
 #define GetEncoderCountsPerRevX "!EGcx;"
 /*COORDINATES*/
-#define GetRA "!CGra;" //Returns Hours(or N/A if not yet aligned)
+#define GetRa "!CGra;" //Returns Hours(or N/A if not yet aligned)
 #define GetDec "!CGde;" //Returns SIGNED_2DIGIT(or N/A if not yet aligned)
 #define GetHourAngle "!CGha;"//Returns Hours(or N/A if not yet aligned)
 #define GetAz "!CGaz;" //UNSIGNED 3 DIGIT(or N/A...)
