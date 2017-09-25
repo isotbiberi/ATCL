@@ -229,11 +229,21 @@ int main()
 
 
 startATCL(fd);
+/*
+sendCommand(GetAlignmentState,fd);
+sendCommand(AlignFromLastPosition,fd);
+sendCommand(GetAlignmaentState,fd);
+
+*/
 sendCommand(GetRa,fd);
+getReturnSync(fd);
+sendCommand(GetDec,fd);
+getReturnSync(fd);
+sendCommand(GetAlt,fd);
+getReturnSync(fd);
+sendCommand(GetAz,fd);
 getReturnSync(fd);
 
 
-
-
-        close(fd);
+close(fd);
 }

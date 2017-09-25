@@ -51,7 +51,10 @@
 
 /*GOTO*/
 
-
+/*ALIGNMENT*/
+#define GetAlignmentState "!AGas;"
+#define AlignmentFromLastPosition "!AFlp;"
+/*ALIGNMENT*/
 
 
 
