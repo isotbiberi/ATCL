@@ -20,6 +20,7 @@ int getReturnAsync(int fd);
 int sendCommand(std::string command,int fd)
 {
   int wlen;
+  std::cout<<"sending command "<<command<<std::endl;
   wlen = write(fd, reinterpret_cast<const void*>(command.c_str()) , 6);
 	            if (wlen != 6) {
 	                printf("Error from write: %d, %d\n", wlen, errno);
