@@ -55,7 +55,7 @@ std::string getReturnSync(int fd,bool thereReturn)
 	                    if (rdlen > 0) {
                         if(isSpecial(buf[0]))
                         {
-                        	printf("special character returned\n");
+                        	std::cout<<"special character returned "<<std::hex<<buf[0]<<std::endl;
 
                         	getReturnAsync(fd);
 
@@ -173,8 +173,13 @@ int startATCL(int fd)
             char re = '\x8F';
             const char *er = &re;
 	        if(strcmp(reinterpret_cast<const char*>(buf),er))
-	        {printf("started ATCL\n"); return 0;}
-	        else {printf("ATCL protocol cant be started");return -1;}
+	        {
+	        	printf("started ATCL\n"); return 0;
+	        }
+	        else {
+	        	printf("ATCL protocol cant be started");
+	        	return -1;
+	        }
 	        //return 0;
 
 
