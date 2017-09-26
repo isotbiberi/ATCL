@@ -288,6 +288,7 @@ do{
 	sendCommand(GetGoToProgressPercent,fd,6);
 	progress=getReturnSync(fd,thereIsReturn);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
+	sleep(0.5);
   }
 while(progress.compare("100%;"));
 
