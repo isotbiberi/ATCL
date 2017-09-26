@@ -41,12 +41,36 @@ bool isSpecial(unsigned char c)
 	 return isSpecial;
 
 }
+
+bool checkFirstChar(int fd)
+{
+	 unsigned char buf[88];
+	 int rdlen ;
+	 rdlen = read(fd, buf, sizeof(buf) - 1);
+	 if (rdlen > 0) {
+		 if(isSpecial(buf[0]))
+           {
+			 return true;
+           }
+		 else
+		 {
+			 return false;
+		 }
+
+
+	 }
+	 else if (rdlen < 0) {
+		                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
+		                        exit(0);
+		                    }
+}
+
 std::string getReturnSync(int fd,bool thereReturn)
 {
 	 unsigned char buf[88];
 	 std::string commandReturn="";
 	 int rdlen ;
-	 bool isAsync = false;
+	 //bool isAsync = false;
 	 if(thereReturn==true)
 	 {
 	            do
@@ -54,15 +78,17 @@ std::string getReturnSync(int fd,bool thereReturn)
 
 	                    rdlen = read(fd, buf, sizeof(buf) - 1);
 	                    if (rdlen > 0) {
-                        if(isSpecial(buf[0]))
+                     /*
+	                    if(isSpecial(buf[0]))
                         {
                         	std::cout<<"special character returned "<<std::hex<<(int)buf[0]<<std::endl;
 
                         	getReturnAsync(fd);
                         	isAsync = true;
-                            buf[0]=0;
+
 
                         }
+                        */
 
 	            //#ifdef DISPLAY_STRING
 	                        buf[rdlen] = 0;
@@ -85,7 +111,7 @@ std::string getReturnSync(int fd,bool thereReturn)
 	             //std::cout<<"appending "<<buf<<std::endl;
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
 	            }
-	            while(buf[rdlen-1]!=';'&& !isAsync);
+	            while(buf[rdlen-1]!=';');
 	            std::cout<<"First char is "<<std::hex<<(int)commandReturn.at(0)<<std::endl;
 	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
 	           return commandReturn;
@@ -268,33 +294,45 @@ sendCommand(GetAlignmaentState,fd);
 
 */
 sendCommand(GetRa,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 sendCommand(GetDec,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 sendCommand(GetAlt,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 sendCommand(GetAz,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 
 std::string alt="";
 alt.append(SetTargetAlt,0,5);
 alt.append("+80:00:00;");
 sendCommand(alt,fd,15);
-getReturnSync(fd,0);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsNoReturn);
 
 std::string az="";
 az.append(SetTargetAz,0,5);
 az.append("080:00:00;");
 sendCommand(az,fd,15);
-getReturnSync(fd,thereIsNoReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsNoReturn);
 
 sendCommand(GoToTargetAltAz,fd,6);
-getReturnSync(fd,thereIsNoReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsNoReturn);
 
-std::string progress;
+std::string progress="0%";
 do{
 	sendCommand(GetGoToProgressPercent,fd,6);
-	progress=getReturnSync(fd,thereIsReturn);
+	if(checkFirstChar(fd)) getReturnAsync(fd);
+	else progress=getReturnSync(fd,thereIsReturn);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
 	sleep(0.5);
   }
@@ -302,13 +340,20 @@ while(progress.compare("100%;")!=0);
 
 
 sendCommand(GetRa,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 sendCommand(GetDec,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 sendCommand(GetAlt,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
+
 sendCommand(GetAz,fd,6);
-getReturnSync(fd,thereIsReturn);
+if(checkFirstChar(fd)) getReturnAsync(fd);
+else getReturnSync(fd,thereIsReturn);
 
 close(fd);
 }
