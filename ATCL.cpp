@@ -17,11 +17,11 @@
 #include "ATCLCommands.h"
 #include <bitset>
 int getReturnAsync(int fd);
-int sendCommand(std::string command,int fd)
+int sendCommand(std::string command,int fd,int length)
 {
   int wlen;
   std::cout<<"sending command "<<command<<std::endl;
-  wlen = write(fd, reinterpret_cast<const void*>(command.c_str()) , 6);
+  wlen = write(fd, reinterpret_cast<const void*>(command.c_str()) , length);
 	            if (wlen != 6) {
 	                printf("Error from write: %d, %d\n", wlen, errno);
 	            }
@@ -254,45 +254,45 @@ sendCommand(AlignFromLastPosition,fd);
 sendCommand(GetAlignmaentState,fd);
 
 */
-sendCommand(GetRa,fd);
+sendCommand(GetRa,fd,6);
 getReturnSync(fd,1);
-sendCommand(GetDec,fd);
+sendCommand(GetDec,fd,6);
 getReturnSync(fd,1);
-sendCommand(GetAlt,fd);
+sendCommand(GetAlt,fd,6);
 getReturnSync(fd,1);
-sendCommand(GetAz,fd);
+sendCommand(GetAz,fd,6);
 getReturnSync(fd,1);
 
 std::string alt="";
 alt.append(SetTargetAlt,0,5);
 alt.append("+80:00:00;");
-sendCommand(alt,fd);
+sendCommand(alt,fd,15);
 getReturnSync(fd,0);
 
 std::string az="";
 az.append(SetTargetAz,0,5);
 az.append("+80:00:00;");
-sendCommand(az,fd);
+sendCommand(az,fd,15);
 getReturnSync(fd,0);
 
-sendCommand(GoToTargetAltAz,fd);
+sendCommand(GoToTargetAltAz,fd,6);
 
 std::string progress;
 do{
-	sendCommand(GetGoToProgressPercent,fd);
+	sendCommand(GetGoToProgressPercent,fd,6);
 	progress=getReturnSync(fd,1);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
   }
 while(strcmp(progress.c_str(),"100"));
 
 
-sendCommand(GetRa,fd);
+sendCommand(GetRa,fd,6);
 getReturnSync(fd,1);
-sendCommand(GetDec,fd);
+sendCommand(GetDec,fd,6);
 getReturnSync(fd,1);
-sendCommand(GetAlt,fd);
+sendCommand(GetAlt,fd,6);
 getReturnSync(fd,1);
-sendCommand(GetAz,fd);
+sendCommand(GetAz,fd,6);
 getReturnSync(fd,1);
 
 close(fd);
