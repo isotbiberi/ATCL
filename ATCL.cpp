@@ -36,12 +36,13 @@ bool isSpecial(unsigned char c)
 	 return isSpecial;
 
 }
-std::string getReturnSync(int fd)
+std::string getReturnSync(int fd,bool thereIsReturn)
 {
 	 unsigned char buf[88];
 	 std::string commandReturn;
 	 int rdlen ;
-
+	 if(thereIsReturn==true)
+	 {
 	            do
 	            {
 
@@ -50,7 +51,10 @@ std::string getReturnSync(int fd)
                         if(isSpecial(buf[0]))
                         {
                         	printf("special character returned\n");
+
                         	getReturnAsync(fd);
+
+
                         }
 
 	            //#ifdef DISPLAY_STRING
@@ -77,6 +81,19 @@ std::string getReturnSync(int fd)
 
 	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
 	           return commandReturn;
+	 }
+	 else
+	 {
+		 do
+		 {
+		 rdlen = read(fd, buf, 1);
+		 std::cout<<"Waiting for the ATCL_ACK"<<std::endl;
+		 }
+		 while(buf[0]!=0x8F);
+		 std::cout<<"Got ATCL_ACK"<<std::endl;
+		 commandReturn.append(reinterpret_cast<const char*>(buf));
+		 return commandReturn;
+	 }
 
 }
 int getReturnAsync(int fd)
@@ -111,7 +128,8 @@ int getReturnAsync(int fd)
 		            while(buf[rdlen-1]!=';');
 
 		           std::cout<<"Async message is " <<commandReturn;
-		           getReturnSync(fd);
+		         //  getReturnSync(fd);
+		           return 0;
 
 }
 
@@ -237,45 +255,45 @@ sendCommand(GetAlignmaentState,fd);
 
 */
 sendCommand(GetRa,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 sendCommand(GetDec,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 sendCommand(GetAlt,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 sendCommand(GetAz,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 
 std::string alt="";
 alt.append(SetTargetAlt,0,5);
 alt.append("+80:00:00;");
 sendCommand(alt,fd);
-getReturnSync(fd);
+getReturnSync(fd,0);
 
 std::string az="";
 az.append(SetTargetAz,0,5);
 az.append("+80:00:00;");
 sendCommand(az,fd);
-getReturnSync(fd);
+getReturnSync(fd,0);
 
 sendCommand(GoToTargetAltAz,fd);
 
 std::string progress;
 do{
 	sendCommand(GetGoToProgressPercent,fd);
-	progress=getReturnSync(fd);
+	progress=getReturnSync(fd,1);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
   }
 while(strcmp(progress.c_str(),"100"));
 
 
 sendCommand(GetRa,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 sendCommand(GetDec,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 sendCommand(GetAlt,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 sendCommand(GetAz,fd);
-getReturnSync(fd);
+getReturnSync(fd,1);
 
 close(fd);
 }
