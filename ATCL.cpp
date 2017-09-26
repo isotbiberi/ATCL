@@ -44,7 +44,7 @@ bool isSpecial(unsigned char c)
 std::string getReturnSync(int fd,bool thereReturn)
 {
 	 unsigned char buf[88];
-	 std::string commandReturn;
+	 std::string commandReturn="";
 	 int rdlen ;
 	 bool isAsync = false;
 	 if(thereReturn==true)
