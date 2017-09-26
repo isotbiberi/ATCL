@@ -283,7 +283,7 @@ getReturnSync(fd,0);
 
 std::string az="";
 az.append(SetTargetAz,0,5);
-az.append("+80:00:00;");
+az.append("080:00:00;");
 sendCommand(az,fd,15);
 getReturnSync(fd,thereIsNoReturn);
 
