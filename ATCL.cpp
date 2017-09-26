@@ -46,6 +46,7 @@ std::string getReturnSync(int fd,bool thereReturn)
 	 unsigned char buf[88];
 	 std::string commandReturn;
 	 int rdlen ;
+	 bool isAsync = false;
 	 if(thereReturn==true)
 	 {
 	            do
@@ -55,9 +56,10 @@ std::string getReturnSync(int fd,bool thereReturn)
 	                    if (rdlen > 0) {
                         if(isSpecial(buf[0]))
                         {
-                        	std::cout<<"special character returned "<<std::hex<<buf[0]<<std::endl;
+                        	std::cout<<"special character returned "<<std::hex<<(int)buf[0]<<std::endl;
 
                         	getReturnAsync(fd);
+                        	isAsync = true;
 
 
                         }
@@ -82,7 +84,7 @@ std::string getReturnSync(int fd,bool thereReturn)
 	             // printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
 	            }
-	            while(buf[rdlen-1]!=';');
+	            while(buf[rdlen-1]!=';'&& !isAsync);
 
 	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
 	           return commandReturn;
