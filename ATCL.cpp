@@ -22,7 +22,7 @@ int sendCommand(std::string command,int fd,int length)
   int wlen;
   std::cout<<"sending command "<<command<<std::endl;
   wlen = write(fd, reinterpret_cast<const void*>(command.c_str()) , length);
-	            if (wlen != 6) {
+	            if (wlen != length) {
 	                printf("Error from write: %d, %d\n", wlen, errno);
 	            }
 	            tcdrain(fd);    /* delay for output */
