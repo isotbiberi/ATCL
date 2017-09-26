@@ -60,7 +60,7 @@ std::string getReturnSync(int fd,bool thereReturn)
 
                         	getReturnAsync(fd);
                         	isAsync = true;
-
+                            buf[0]=0;
 
                         }
 
