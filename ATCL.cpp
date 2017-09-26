@@ -82,11 +82,11 @@ std::string getReturnSync(int fd,bool thereReturn)
 
 	                    }
 	             // printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
-	             std::cout<<"appending "<<buf<<std::endl;
+	             //std::cout<<"appending "<<buf<<std::endl;
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
 	            }
 	            while(buf[rdlen-1]!=';'&& !isAsync);
-
+	            std::cout<<"First char is "<<std::hex<<(int)commandReturn.at(0)<<std::endl;
 	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
 	           return commandReturn;
 	 }
