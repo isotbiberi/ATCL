@@ -284,7 +284,7 @@ do{
 	progress=getReturnSync(fd,1);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
   }
-while(strcmp(progress.c_str(),"100%;"));
+while(!strcmp(progress.c_str(),"100%;"));
 
 
 sendCommand(GetRa,fd,6);
