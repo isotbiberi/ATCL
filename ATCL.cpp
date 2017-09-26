@@ -298,7 +298,7 @@ do{
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
 	sleep(0.5);
   }
-while(progress.compare("100%;"));
+while(progress.compare("100%;")!=0);
 
 
 sendCommand(GetRa,fd,6);
