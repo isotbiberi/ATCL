@@ -127,7 +127,7 @@ int getReturnAsync(int fd)
 		            }
 		            while(buf[rdlen-1]!=';');
 
-		           std::cout<<"Async message is " <<commandReturn;
+		           std::cout<<"Async message is " <<commandReturn<<std::endl;
 		         //  getReturnSync(fd);
 		           return 0;
 
@@ -276,6 +276,7 @@ sendCommand(az,fd,15);
 getReturnSync(fd,0);
 
 sendCommand(GoToTargetAltAz,fd,6);
+getReturnSync(fd,0);
 
 std::string progress;
 do{
@@ -283,7 +284,7 @@ do{
 	progress=getReturnSync(fd,1);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
   }
-while(strcmp(progress.c_str(),"100"));
+while(strcmp(progress.c_str(),"100%"));
 
 
 sendCommand(GetRa,fd,6);
