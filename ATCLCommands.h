@@ -26,8 +26,8 @@
 #define SetTargetRA "!CStr;"
 #define GetCoordFormat "!CGcf;"
 #define SetTargetAlt "!CStl;"
-#define GetTargetAlt "!CGa1;"
-#define SetTargetAz "!CGa2;"
+#define GetTargetAlt "!CGtl;"
+#define SetTargetAz "!CStz;"
 #define GetTargetAz "!CGtz;"
 /*COORDINATES*/
 
