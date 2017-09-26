@@ -82,6 +82,7 @@ std::string getReturnSync(int fd,bool thereReturn)
 
 	                    }
 	             // printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
+	             std::cout<<"appending "<<buf<<std::endl;
 	             commandReturn.append(reinterpret_cast<const char*>(buf));
 	            }
 	            while(buf[rdlen-1]!=';'&& !isAsync);
