@@ -16,6 +16,11 @@
 #include <iostream>
 #include "ATCLCommands.h"
 #include <bitset>
+
+
+#define thereIsReturn 1
+#define thereIsNoReturn 0
+
 int getReturnAsync(int fd);
 int sendCommand(std::string command,int fd,int length)
 {
@@ -36,12 +41,12 @@ bool isSpecial(unsigned char c)
 	 return isSpecial;
 
 }
-std::string getReturnSync(int fd,bool thereIsReturn)
+std::string getReturnSync(int fd,bool thereReturn)
 {
 	 unsigned char buf[88];
 	 std::string commandReturn;
 	 int rdlen ;
-	 if(thereIsReturn==true)
+	 if(thereReturn==true)
 	 {
 	            do
 	            {
@@ -255,13 +260,13 @@ sendCommand(GetAlignmaentState,fd);
 
 */
 sendCommand(GetRa,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 sendCommand(GetDec,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 sendCommand(GetAlt,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 sendCommand(GetAz,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 
 std::string alt="";
 alt.append(SetTargetAlt,0,5);
@@ -273,28 +278,28 @@ std::string az="";
 az.append(SetTargetAz,0,5);
 az.append("+80:00:00;");
 sendCommand(az,fd,15);
-getReturnSync(fd,0);
+getReturnSync(fd,thereIsNoReturn);
 
 sendCommand(GoToTargetAltAz,fd,6);
-getReturnSync(fd,0);
+getReturnSync(fd,thereIsNoReturn);
 
 std::string progress;
 do{
 	sendCommand(GetGoToProgressPercent,fd,6);
-	progress=getReturnSync(fd,1);
+	progress=getReturnSync(fd,thereIsReturn);
 	std::cout<<"slewing and progress is "<<progress<<std::endl;
   }
 while(progress.compare("100%;"));
 
 
 sendCommand(GetRa,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 sendCommand(GetDec,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 sendCommand(GetAlt,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 sendCommand(GetAz,fd,6);
-getReturnSync(fd,1);
+getReturnSync(fd,thereIsReturn);
 
 close(fd);
 }
