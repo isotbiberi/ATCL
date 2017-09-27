@@ -299,7 +299,7 @@ std::string readTillSemicolon(int fd)
 		 do
 		            {
 
-					rdlen = read(fd, buf, sizeof(buf) - 1);
+					rdlen = read(fd, buf,1);
 					if (rdlen > 0) {
 
 
