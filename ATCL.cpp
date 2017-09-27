@@ -398,6 +398,17 @@ readReturnValue(fd);
 sendCommand(GetAz,fd,6);
 readReturnValue(fd);
 
+std::string alt="";
+alt.append(SetTargetAlt,0,5);
+alt.append("+80:00:00;");
+sendCommand(alt,fd,15);
+readAck(fd);
+
+std::string az="";
+az.append(SetTargetAz,0,5);
+az.append("080:00:00;");
+sendCommand(az,fd,15);
+readAck(fd);
 
 close(fd);
 }
