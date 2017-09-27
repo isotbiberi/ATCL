@@ -410,5 +410,19 @@ az.append("080:00:00;");
 sendCommand(az,fd,15);
 readAck(fd);
 
+sendCommand(GoToTargetAltAz,fd,6);
+readAck(fd);
+
+std::string progress;
+do{
+	sendCommand(GetGoToProgressPercent,fd,6);
+	progress=readReturnValue(fd);
+}
+while(progress.compare("100%;")!=0);
+
+
+
+
+
 close(fd);
 }
