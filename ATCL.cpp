@@ -349,7 +349,7 @@ readAck(fd);
 */
 
 //moveAltAz("+80:00:00;","080:00:00;",fd);
-moveRaDec("12:00:00.0","+50:00:00",fd);
+moveRaDec("12:00:00.0;","+50:00:00;",fd);
 std::string progress;
 do{
 	sendCommand(GetGoToProgressPercent,fd,6);
