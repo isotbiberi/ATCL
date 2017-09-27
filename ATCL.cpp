@@ -197,6 +197,30 @@ int moveAltAz(std::string altitude,std::string azimuth,int fd)
 
 }
 
+
+
+int moveRaDec(std::string rightAscention,std::string declination,int fd)
+{
+	std::string ra="";
+	ra.append(SetTargetRA,0,5);
+	ra.append(rightAscention);
+	sendCommand(ra,fd,15);
+	readAck(fd);
+
+	std::string dec="";
+	dec.append(SetTargetDec,0,5);
+	dec.append(declination);
+	sendCommand(dec,fd,15);
+	readAck(fd);
+
+	sendCommand(GoToTargetRA_Dec,fd,6);
+	readAck(fd);
+	return 0;
+
+}
+
+
+
 unsigned char readOneChar(int fd)
 {
 	unsigned char firstChar[1];
@@ -324,8 +348,8 @@ sendCommand(GoToTargetAltAz,fd,6);
 readAck(fd);
 */
 
-moveAltAz("+80:00:00;","080:00:00;",fd);
-
+//moveAltAz("+80:00:00;","080:00:00;",fd);
+moveRaDec("12:00:00.0","+50:00:00",fd);
 std::string progress;
 do{
 	sendCommand(GetGoToProgressPercent,fd,6);
