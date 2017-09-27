@@ -261,7 +261,7 @@ return firstChar[0];
 void readAck(int fd)
 {
 	unsigned char firstChar=readOneChar(fd);
-	std::cout<<"firs char in readAck is "<<firstChar<<std::endl;
+	std::cout<<"first char in readAck is "<<firstChar<<std::endl;
 	while(firstChar!=0x8F)
 	{
 		readTillSemicolon(fd);
@@ -312,8 +312,10 @@ std::string readTillSemicolon(int fd)
 					}
 
 		             commandReturn.append(reinterpret_cast<const char*>(buf));
+		             std::cout<<"Reading till semicolon"<<std::endl;
 		            }
 		            while(buf[rdlen-1]!=';');
+		 std::cout<<"Readed "<<commandReturn<<" in readtillsemicolon"<<std::endl;
 		 return commandReturn;
 
 		}
