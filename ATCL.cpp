@@ -261,6 +261,7 @@ return firstChar[0];
 void readAck(int fd)
 {
 	unsigned char firstChar=readOneChar(fd);
+	std::cout<<"firs char in readAck is "<<firstChar<<std::endl;
 	while(firstChar!=0x8F)
 	{
 		readTillSemicolon(fd);
