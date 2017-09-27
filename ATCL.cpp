@@ -18,10 +18,8 @@
 #include <bitset>
 #include <sstream>
 
-#define thereIsReturn 1
-#define thereIsNoReturn 0
 std::string readTillSemicolon(int fd);
-int getReturnAsync(int fd);
+
 int sendCommand(std::string command,int fd,int length)
 {
   int wlen;
@@ -42,69 +40,7 @@ bool isSpecial(unsigned char c)
 	 return isSpecial;
 
 }
-std::string getReturnSync(int fd,bool thereReturn)
-{
-	 unsigned char buf[88];
-	 std::string commandReturn="";
-	 int rdlen ;
-	 bool isAsync = false;
-	 if(thereReturn==true)
-	 {
-	            do
-	            {
 
-	                    rdlen = read(fd, buf, sizeof(buf) - 1);
-	                    if (rdlen > 0) {
-                        if(isSpecial(buf[0]))
-                        {
-                        	std::cout<<"special character returned "<<std::hex<<(int)buf[0]<<std::endl;
-
-                        	getReturnAsync(fd);
-                        	isAsync = true;
-                            //buf[0]=0;
-
-                        }
-
-	            //#ifdef DISPLAY_STRING
-	                        buf[rdlen] = 0;
-	                      //  printf("Read %d: \"%s\"\n", rdlen, buf);
-
-	            //#else /* display hex */
-	           /*
-	                       unsigned char *p;
-	                        printf("Read %d:", rdlen);
-	                        for (p = buf; rdlen-- > 0; p++)
-	                            printf(" 0x%x", *p);
-	                        printf("\n");
-	           */
-	           //#endif
-	                    } else if (rdlen < 0) {
-	                        printf("Error from read: %d: %s\n", rdlen, strerror(errno));
-
-	                    }
-	             // printf("character is %c rdlen is %d\n",buf[rdlen-1],rdlen);
-	             //std::cout<<"appending "<<buf<<std::endl;
-	             commandReturn.append(reinterpret_cast<const char*>(buf));
-	            }
-	            while(buf[rdlen-1]!=';'&& !isAsync);
-	            std::cout<<"First char is "<<std::hex<<(int)commandReturn.at(0)<<std::endl;
-	           std::cout<<"Sync return value is " <<commandReturn<<std::endl;
-	           return commandReturn;
-	 }
-	 else
-	 {
-		 do
-		 {
-		 rdlen = read(fd, buf, 1);
-		 std::cout<<"Waiting for the ATCL_ACK"<<std::endl;
-		 }
-		 while(buf[0]!=0x8F);
-		 std::cout<<"Got ATCL_ACK"<<std::endl;
-		 commandReturn.append(reinterpret_cast<const char*>(buf));
-		 return commandReturn;
-	 }
-
-}
 int getReturnAsync(int fd)
 {
 	unsigned char buf[88];
@@ -316,7 +252,7 @@ std::string readTillSemicolon(int fd)
 		             std::cout<<"Reading till semicolon"<<std::endl;
 		            }
 		            while(buf[rdlen-1]!=';');
-		 std::cout<<"Readed "<<commandReturn<<" in readtillsemicolon"<<std::endl;
+		 //std::cout<<"Readed "<<commandReturn<<" in readtillsemicolon"<<std::endl;
 		 return commandReturn;
 
 		}
@@ -341,56 +277,6 @@ int main()
 
 
 startATCL(fd);
-/*
-sendCommand(GetAlignmentState,fd);
-sendCommand(AlignFromLastPosition,fd);
-sendCommand(GetAlignmaentState,fd);
-
-*/
-/*
-sendCommand(GetRa,fd,6);
-getReturnSync(fd,thereIsReturn);
-sendCommand(GetDec,fd,6);
-getReturnSync(fd,thereIsReturn);
-sendCommand(GetAlt,fd,6);
-getReturnSync(fd,thereIsReturn);
-sendCommand(GetAz,fd,6);
-getReturnSync(fd,thereIsReturn);
-
-std::string alt="";
-alt.append(SetTargetAlt,0,5);
-alt.append("+80:00:00;");
-sendCommand(alt,fd,15);
-getReturnSync(fd,0);
-
-std::string az="";
-az.append(SetTargetAz,0,5);
-az.append("080:00:00;");
-sendCommand(az,fd,15);
-getReturnSync(fd,thereIsNoReturn);
-
-sendCommand(GoToTargetAltAz,fd,6);
-getReturnSync(fd,thereIsNoReturn);
-
-std::string progress;
-do{
-	sendCommand(GetGoToProgressPercent,fd,6);
-	progress=getReturnSync(fd,thereIsReturn);
-	std::cout<<"slewing and progress is "<<progress<<std::endl;
-	sleep(0.5);
-  }
-while(progress.compare("100%;")!=0);
-
-//test
-sendCommand(GetRa,fd,6);
-getReturnSync(fd,thereIsReturn);
-sendCommand(GetDec,fd,6);
-getReturnSync(fd,thereIsReturn);
-sendCommand(GetAlt,fd,6);
-getReturnSync(fd,thereIsReturn);
-sendCommand(GetAz,fd,6);
-getReturnSync(fd,thereIsReturn);
-*/
 
 
 sendCommand(GetRa,fd,6);
