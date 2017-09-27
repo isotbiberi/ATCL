@@ -19,7 +19,7 @@
 #include <sstream>
 
 std::string readTillSemicolon(int fd);
-
+void readAck(int fd);
 int sendCommand(std::string command,int fd,int length)
 {
   int wlen;
@@ -177,6 +177,25 @@ void set_mincount(int fd, int mcount)
 }
 
 
+int moveAltAz(std::string altitude,std::string azimuth,int fd)
+{
+	std::string alt="";
+	alt.append(SetTargetAlt,0,5);
+	alt.append(altitude);
+	sendCommand(alt,fd,15);
+	readAck(fd);
+
+	std::string az="";
+	az.append(SetTargetAz,0,5);
+	az.append(azimuth);
+	sendCommand(az,fd,15);
+	readAck(fd);
+
+	sendCommand(GoToTargetAltAz,fd,6);
+	readAck(fd);
+	return 0;
+
+}
 
 unsigned char readOneChar(int fd)
 {
@@ -249,7 +268,7 @@ std::string readTillSemicolon(int fd)
 					}
 
 		             commandReturn.append(reinterpret_cast<const char*>(buf));
-		             std::cout<<"Reading till semicolon"<<std::endl;
+		            // std::cout<<"Reading till semicolon"<<std::endl;
 		            }
 		            while(buf[rdlen-1]!=';');
 		 //std::cout<<"Readed "<<commandReturn<<" in readtillsemicolon"<<std::endl;
@@ -288,6 +307,7 @@ readReturnValue(fd);
 sendCommand(GetAz,fd,6);
 readReturnValue(fd);
 
+/*
 std::string alt="";
 alt.append(SetTargetAlt,0,5);
 alt.append("+80:00:00;");
@@ -302,6 +322,9 @@ readAck(fd);
 
 sendCommand(GoToTargetAltAz,fd,6);
 readAck(fd);
+*/
+
+moveAltAz("+80:00:00;","080:00:00;",fd);
 
 std::string progress;
 do{
