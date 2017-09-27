@@ -243,7 +243,8 @@ void set_mincount(int fd, int mcount)
 
 
 unsigned char readOneChar(int fd)
-{   unsigned char firstChar[1];
+{
+	unsigned char firstChar[1];
 	int rdlen = read(fd, firstChar, 1);
 		if (rdlen > 0) {
 			return firstChar[0];
@@ -254,7 +255,7 @@ unsigned char readOneChar(int fd)
 		 printf("Error from read: %d: %s\n", rdlen, strerror(errno));
          exit(0);
 		}
-
+std::cout<<" Reading one char "<<firstChar[1]<<std::endl;
 return firstChar[0];
 }
 
