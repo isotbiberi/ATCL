@@ -444,7 +444,8 @@ int setAccelX(int fd,std::string accel)
 {
 	        std::string accelX="";
 			accelX.append(SetAccelMaxX,0,5);
-			sendCommand(accelX,fd,255);
+			accelX.append(accel);
+			sendCommand(accelX,fd,25);
 			readAck(fd);
 
 }
@@ -464,6 +465,7 @@ int setAccelY(int fd,std::string accel)
 {
 	    std::string accelY="";
 		accelY.append(SetAccelMaxY,0,5);
+		accelY.append(accel);
 		sendCommand(accelY,fd,25);
 		readAck(fd);
 
@@ -553,12 +555,15 @@ getAccelY(fd);
 getVelocityX(fd);
 getVelocityY(fd);
 
+sendCommand(GetEncodersAbsolute,fd,6);
+readReturnValue(fd);
+
 
 //setVelocityX(fd,"3.000000deg/sec;");
 //setVelocityY(fd,"4.000000deg/sec;");
 
 
-setAccelX(fd,"1.000000deg/sec0x1E;");
+//setAccelX(fd,"1.000000deg/sec0x1E;");
 
 
 
