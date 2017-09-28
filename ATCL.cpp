@@ -440,11 +440,11 @@ std::string getAccelX(int fd)
 
 }
 
-std::string setAccelX(int fd,std::string accel)
+int setAccelX(int fd,std::string accel)
 {
 	        std::string accelX="";
 			accelX.append(SetAccelMaxX,0,5);
-			sendCommand(accelX,fd,15);
+			sendCommand(accelX,fd,255);
 			readAck(fd);
 
 }
@@ -460,11 +460,11 @@ std::string getAccelY(int fd)
 }
 
 
-std::string setAccelY(int fd,std::string accel)
+int setAccelY(int fd,std::string accel)
 {
 	    std::string accelY="";
 		accelY.append(SetAccelMaxY,0,5);
-		sendCommand(accelY,fd,15);
+		sendCommand(accelY,fd,25);
 		readAck(fd);
 
 }
