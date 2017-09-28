@@ -321,7 +321,7 @@ int main()
 
 startATCL(fd);
 
-
+/*
 sendCommand(GetRa,fd,6);
 readReturnValue(fd);
 sendCommand(GetDec,fd,6);
@@ -330,32 +330,31 @@ sendCommand(GetAlt,fd,6);
 readReturnValue(fd);
 sendCommand(GetAz,fd,6);
 readReturnValue(fd);
-
-/*
-std::string alt="";
-alt.append(SetTargetAlt,0,5);
-alt.append("+80:00:00;");
-sendCommand(alt,fd,15);
-readAck(fd);
-
-std::string az="";
-az.append(SetTargetAz,0,5);
-az.append("080:00:00;");
-sendCommand(az,fd,15);
-readAck(fd);
-
-sendCommand(GoToTargetAltAz,fd,6);
-readAck(fd);
 */
 
+sendCommand(GetTrackRate,fd,6);
+readReturnValue(fd);
+
+
+sendCommand(GetCustomTRateOffsetRA,fd,6);
+readReturnValue(fd);
+
+sendCommand(GetCustomTRateOffsetDec,fd,6);
+readReturnValue(fd);
+
+
 //moveAltAz("+80:00:00;","080:00:00;",fd);
-moveRaDec("12:00:00.0;","+50:00:00;",fd);
+//moveRaDec("12:00:00.0;","+50:00:00;",fd);
+
+/*
 std::string progress;
 do{
 	sendCommand(GetGoToProgressPercent,fd,6);
 	progress=readReturnValue(fd);
 }
 while(progress.compare("100%;")!=0);
+*/
+
 
 
 

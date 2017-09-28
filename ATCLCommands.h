@@ -57,6 +57,16 @@
 /*ALIGNMENT*/
 
 
+/*TRACKING*/
+#define SetTrackRate "!RStr;"
+#define GetTrackRate "!RGtr;"
+#define ToggleDrift "!RTdr;"
+#define SetCustomTRateOffsetRA "!RSor;"
+#define GetCustomTRateOffsetRA "!RGor;"
+#define SetCustomTRateOffsetDec "!RSod;"
+#define GetCustomTRateOffsetDec "!RGod;"
+/*TRACKING*/
+
 
 
 
