@@ -343,6 +343,27 @@ sendCommand(GetCustomTRateOffsetDec,fd,6);
 readReturnValue(fd);
 
 
+
+std::string trackRate="";
+trackRate.append(SetTrackRate,0,5);
+trackRate.append("Custom;");
+sendCommand(trackRate,fd,15);
+readAck(fd);
+
+
+sendCommand(GetTrackRate,fd,6);
+readReturnValue(fd);
+
+
+sendCommand(GetCustomTRateOffsetRA,fd,6);
+readReturnValue(fd);
+
+sendCommand(GetCustomTRateOffsetDec,fd,6);
+readReturnValue(fd);
+
+
+
+
 //moveAltAz("+80:00:00;","080:00:00;",fd);
 //moveRaDec("12:00:00.0;","+50:00:00;",fd);
 
