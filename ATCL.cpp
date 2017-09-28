@@ -435,7 +435,7 @@ int setVelocityY(int fd,std::string velocity)
 std::string getAccelX(int fd)
 {
 
-	sendCommand(GetVelMaxX ,fd,6);
+	sendCommand(GetAccelMaxX  ,fd,6);
 	return readReturnValue(fd);
 
 }
@@ -454,7 +454,7 @@ std::string setAccelX(int fd,std::string accel)
 std::string getAccelY(int fd)
 {
 
-	sendCommand(GetVelMaxY ,fd,6);
+	sendCommand(GetAccelMaxY ,fd,6);
 	return readReturnValue(fd);
 
 }
@@ -526,6 +526,7 @@ readReturnValue(fd);
 
 */
 
+
 getRa(fd);
 getDec(fd);
 getAlt(fd);
@@ -548,12 +549,17 @@ getDecRate(fd);
 
 getAccelX(fd);
 getAccelY(fd);
+
 getVelocityX(fd);
 getVelocityY(fd);
 
 
-setVelocityX(fd,"3;");
-setVelocityY(fd,"4;");
+//setVelocityX(fd,"3.000000deg/sec;");
+//setVelocityY(fd,"4.000000deg/sec;");
+
+
+setAccelX(fd,"1.000000deg/sec0x1E;");
+
 
 
 //moveAltAz("+80:00:00;","080:00:00;",fd);

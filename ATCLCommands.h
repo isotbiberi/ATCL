@@ -1,5 +1,18 @@
 /*ENCODER*/
 #define GetEncoderCountsPerRevX "!EGcx;"
+#define GetEncoderCountsPerRevY "!EGcy;"
+#define SetEncoderCountsPerRevX "!EScx;"
+#define GetEncoderCountsPerRevY "!EGcy;"
+#define GetEncodersAbsolute "!Egea;"
+
+#define GetEncDiagPositionX "!EGex;"
+#define ZeroEncDiagPositionX "!EZex;"
+#define GetEncDiagPositionY "!EGey;"
+#define ZeroEncDiagPositionY "!EZey;"
+
+/*ENCODER*/
+
+
 /*COORDINATES*/
 #define GetRa "!CGra;" //Returns Hours(or N/A if not yet aligned)
 #define GetDec "!CGde;" //Returns SIGNED_2DIGIT(or N/A if not yet aligned)
@@ -80,6 +93,9 @@
 #define GetAccelMaxY "!NGay;"
 
 /* MOUNT SETTINGS */
+
+
+
 
 
 
