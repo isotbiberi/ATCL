@@ -315,12 +315,12 @@ std::string getRaRate(int fd)
 	return readReturnValue(fd);
 }
 
-int setRaRate(int fd)
+int setRaRate(int fd,std::string raRate)
 {
 
 	    std::string raTrackRate="";
 		raTrackRate.append(SetCustomTRateOffsetRA,0,5);
-		raTrackRate.append("+1.00;");//+1.00 ne demek in arc sec per hour ??
+		raTrackRate.append(raRate);//+1.00 ne demek in arc sec per hour ??
 		sendCommand(raTrackRate,fd,15);
 		readAck(fd);
 }
@@ -337,12 +337,12 @@ std::string getDecRate(int fd)
 }
 
 
-int setDecRate(int fd)
+int setDecRate(int fd,std::string decRate)
 {
 
 	    std::string decTrackRate="";
 		decTrackRate.append(SetCustomTRateOffsetDec,0,5);
-		decTrackRate.append("+1.00;");//+1.00 ne demek in arc sec per hour ??
+		decTrackRate.append(decRate);//+1.00 ne demek in arc sec per hour ??
 		sendCommand(decTrackRate,fd,15);
 		readAck(fd);
 }
@@ -352,11 +352,11 @@ int setDecRate(int fd)
 
 
 
-int setTrackrate(int fd)
+int setTrackrate(int fd,std::string mode)
 {
 	std::string trackRate="";
 	trackRate.append(SetTrackRate,0,5);
-	trackRate.append("Sidereal;");
+	trackRate.append(mode);
 	sendCommand(trackRate,fd,15);
 	readAck(fd);
 }
@@ -457,9 +457,9 @@ getTrackRate(fd);
 getRaRate(fd);
 getDecRate(fd);
 
-setTrackrate(fd);
-setRaRate(fd);
-setDecRate(fd);
+setTrackrate(fd,"Custom;");
+setRaRate(fd,"+1.00;");
+setDecRate(fd,"+1.00;");
 
 
 getTrackRate(fd);
