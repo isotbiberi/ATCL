@@ -399,7 +399,7 @@ std::string getVelocityX(int fd)
 
 }
 
-std::string setVelocityX(int fd,std::string velocity)
+int setVelocityX(int fd,std::string velocity)
 {
 	    std::string velocityX="";
 		velocityX.append(SetVelMaxX,0,5);
@@ -420,7 +420,7 @@ std::string getVelocityY(int fd)
 }
 
 
-std::string setVelocityY(int fd,std::string velocity)
+int setVelocityY(int fd,std::string velocity)
 {
 	    std::string velocityY="";
 		velocityY.append(SetVelMaxY,0,5);
@@ -548,6 +548,13 @@ getDecRate(fd);
 
 getAccelX(fd);
 getAccelY(fd);
+getVelocityX(fd);
+getVelocityY(fd);
+
+
+setVelocityX(fd,"3;");
+setVelocityY(fd,"4;");
+
 
 //moveAltAz("+80:00:00;","080:00:00;",fd);
 //moveRaDec("12:00:00.0;","+50:00:00;",fd);

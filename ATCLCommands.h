@@ -75,6 +75,7 @@
 #define SetVelMaxY "!NSvy;"
 #define GetVelMaxY "!NGvy;"
 #define SetAccelMaxX "!NSax;"
+#define GetAccelMaxX "!NGax;"
 #define SetAccelMaxY "!NSay;"
 #define GetAccelMaxY "!NGay;"
 
