@@ -68,8 +68,17 @@
 /*TRACKING*/
 
 
+/*MOUNT SETTINGS*/
 
+#define SetVelMaxX "!NSvx;"
+#define GetVelMaxX "!NGvx;"
+#define SetVelMaxY "!NSvy;"
+#define GetVelMaxY "!NGvy;"
+#define SetAccelMaxX "!NSax;"
+#define SetAccelMaxY "!NSay;"
+#define GetAccelMaxY "!NGay;"
 
+/* MOUNT SETTINGS */
 
 
 

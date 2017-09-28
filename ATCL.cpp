@@ -391,6 +391,85 @@ std::string getAz(int fd)
 	return readReturnValue(fd);
 }
 
+std::string getVelocityX(int fd)
+{
+
+	sendCommand(GetVelMaxX ,fd,6);
+	return readReturnValue(fd);
+
+}
+
+std::string setVelocityX(int fd,std::string velocity)
+{
+	    std::string velocityX="";
+		velocityX.append(SetVelMaxX,0,5);
+		velocityX.append(velocity);
+		sendCommand(velocityX,fd,15);
+		readAck(fd);
+
+}
+
+
+
+std::string getVelocityY(int fd)
+{
+
+	sendCommand(GetVelMaxY ,fd,6);
+	return readReturnValue(fd);
+
+}
+
+
+std::string setVelocityY(int fd,std::string velocity)
+{
+	    std::string velocityY="";
+		velocityY.append(SetVelMaxY,0,5);
+		velocityY.append(velocity);
+		sendCommand(velocityY,fd,15);
+		readAck(fd);
+
+}
+
+
+
+std::string getAccelX(int fd)
+{
+
+	sendCommand(GetVelMaxX ,fd,6);
+	return readReturnValue(fd);
+
+}
+
+std::string setAccelX(int fd,std::string accel)
+{
+	        std::string accelX="";
+			accelX.append(SetAccelMaxX,0,5);
+			sendCommand(accelX,fd,15);
+			readAck(fd);
+
+}
+
+
+
+std::string getAccelY(int fd)
+{
+
+	sendCommand(GetVelMaxY ,fd,6);
+	return readReturnValue(fd);
+
+}
+
+
+std::string setAccelY(int fd,std::string accel)
+{
+	    std::string accelY="";
+		accelY.append(SetAccelMaxY,0,5);
+		sendCommand(accelY,fd,15);
+		readAck(fd);
+
+}
+
+
 
 
 
@@ -458,8 +537,8 @@ getRaRate(fd);
 getDecRate(fd);
 
 setTrackrate(fd,"Custom;");
-setRaRate(fd,"+1.00;");
-setDecRate(fd,"+1.00;");
+setRaRate(fd,"+1.00;");//sidereal plus this value
+setDecRate(fd,"+1.00;");//sidereal plus this value
 
 
 getTrackRate(fd);
@@ -467,7 +546,8 @@ getRaRate(fd);
 getDecRate(fd);
 
 
-
+getAccelX(fd);
+getAccelY(fd);
 
 //moveAltAz("+80:00:00;","080:00:00;",fd);
 //moveRaDec("12:00:00.0;","+50:00:00;",fd);
