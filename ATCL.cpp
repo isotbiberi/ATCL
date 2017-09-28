@@ -300,6 +300,98 @@ std::string readTillSemicolon(int fd)
 
 		}
 
+std::string getTrackRate(int fd)
+{
+
+	sendCommand(GetTrackRate,fd,6);
+	return readReturnValue(fd);
+
+}
+
+std::string getRaRate(int fd)
+{
+
+	sendCommand(GetCustomTRateOffsetRA,fd,6);
+	return readReturnValue(fd);
+}
+
+int setRaRate(int fd)
+{
+
+	    std::string raTrackRate="";
+		raTrackRate.append(SetCustomTRateOffsetRA,0,5);
+		raTrackRate.append("+1.00;");//+1.00 ne demek in arc sec per hour ??
+		sendCommand(raTrackRate,fd,15);
+		readAck(fd);
+}
+
+
+
+std::string getDecRate(int fd)
+{
+
+	sendCommand(GetCustomTRateOffsetDec,fd,6);
+	return readReturnValue(fd);
+
+
+}
+
+
+int setDecRate(int fd)
+{
+
+	    std::string decTrackRate="";
+		decTrackRate.append(SetCustomTRateOffsetDec,0,5);
+		decTrackRate.append("+1.00;");//+1.00 ne demek in arc sec per hour ??
+		sendCommand(decTrackRate,fd,15);
+		readAck(fd);
+}
+
+
+
+
+
+
+int setTrackrate(int fd)
+{
+	std::string trackRate="";
+	trackRate.append(SetTrackRate,0,5);
+	trackRate.append("Sidereal;");
+	sendCommand(trackRate,fd,15);
+	readAck(fd);
+}
+
+std::string getDec(int fd)
+{
+	sendCommand(GetDec,fd,6);
+	return readReturnValue(fd);
+
+}
+
+
+std::string getRa(int fd)
+{
+
+	sendCommand(GetRa,fd,6);
+	return readReturnValue(fd);
+
+}
+
+std::string getAlt(int fd)
+{
+
+	sendCommand(GetAlt,fd,6);
+	return readReturnValue(fd);
+
+}
+
+std::string getAz(int fd)
+{
+	sendCommand(GetAz,fd,6);
+	return readReturnValue(fd);
+}
+
+
 
 
 int main()
@@ -332,24 +424,16 @@ sendCommand(GetAz,fd,6);
 readReturnValue(fd);
 */
 
-sendCommand(GetTrackRate,fd,6);
-readReturnValue(fd);
-
-
-sendCommand(GetCustomTRateOffsetRA,fd,6);
-readReturnValue(fd);
-
-sendCommand(GetCustomTRateOffsetDec,fd,6);
-readReturnValue(fd);
 
 
 
-std::string trackRate="";
-trackRate.append(SetTrackRate,0,5);
-trackRate.append("Custom;");
-sendCommand(trackRate,fd,15);
-readAck(fd);
 
+
+
+
+
+
+/*
 
 sendCommand(GetTrackRate,fd,6);
 readReturnValue(fd);
@@ -360,6 +444,27 @@ readReturnValue(fd);
 
 sendCommand(GetCustomTRateOffsetDec,fd,6);
 readReturnValue(fd);
+
+*/
+
+getRa(fd);
+getDec(fd);
+getAlt(fd);
+getAz(fd);
+
+
+getTrackRate(fd);
+getRaRate(fd);
+getDecRate(fd);
+
+setTrackrate(fd);
+setRaRate(fd);
+setDecRate(fd);
+
+
+getTrackRate(fd);
+getRaRate(fd);
+getDecRate(fd);
 
 
 
