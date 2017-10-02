@@ -3,7 +3,7 @@
 #define GetEncoderCountsPerRevY "!EGcy;"
 #define SetEncoderCountsPerRevX "!EScx;"
 #define GetEncoderCountsPerRevY "!EGcy;"
-#define GetEncodersAbsolute "!Egea;"
+#define GetEncodersAbsolute "!EGea;"
 
 #define GetEncDiagPositionX "!EGex;"
 #define ZeroEncDiagPositionX "!EZex;"

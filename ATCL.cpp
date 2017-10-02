@@ -241,7 +241,7 @@ return firstChar[0];
 void readAck(int fd)
 {
 	unsigned char firstChar=readOneChar(fd);
-	std::cout<<"first char in readAck is "<<firstChar<<std::endl;
+	std::cout<<"first char in readAck is "<<firstChar<<" Hex value is " <<std::hex<<(int)firstChar<<std::endl;
 	while(firstChar!=0x8F)
 	{
 		readTillSemicolon(fd);
@@ -295,7 +295,7 @@ std::string readTillSemicolon(int fd)
 		            // std::cout<<"Reading till semicolon"<<std::endl;
 		            }
 		            while(buf[rdlen-1]!=';');
-		 //std::cout<<"Readed "<<commandReturn<<" in readtillsemicolon"<<std::endl;
+		 std::cout<<"Readed "<<commandReturn<<" in readtillsemicolon"<<std::endl;
 		 return commandReturn;
 
 		}
@@ -404,7 +404,7 @@ int setVelocityX(int fd,std::string velocity)
 	    std::string velocityX="";
 		velocityX.append(SetVelMaxX,0,5);
 		velocityX.append(velocity);
-		sendCommand(velocityX,fd,15);
+		sendCommand(velocityX,fd,25);
 		readAck(fd);
 
 }
@@ -425,7 +425,7 @@ int setVelocityY(int fd,std::string velocity)
 	    std::string velocityY="";
 		velocityY.append(SetVelMaxY,0,5);
 		velocityY.append(velocity);
-		sendCommand(velocityY,fd,15);
+		sendCommand(velocityY,fd,25);
 		readAck(fd);
 
 }
@@ -539,8 +539,8 @@ getTrackRate(fd);
 getRaRate(fd);
 getDecRate(fd);
 
-setTrackrate(fd,"Custom;");
-setRaRate(fd,"+1.00;");//sidereal plus this value
+setTrackrate(fd,"Custom;");//setting track rate starts tracking
+setRaRate(fd,"+1.00;");//sidereal plus this value in arcsec/hour
 setDecRate(fd,"+1.00;");//sidereal plus this value
 
 
