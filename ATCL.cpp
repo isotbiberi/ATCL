@@ -564,7 +564,7 @@ setVelocityY(fd,"4.000000deg/sec;");
 
 std::stringstream ss;
 ss<<"1.000000deg/sec";
-ss<<std::hex<<0x1E;
+ss<<(char)0x1E;
 ss<<";";
 setAccelX(fd,ss.str());
 
