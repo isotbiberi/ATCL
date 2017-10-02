@@ -471,9 +471,32 @@ int setAccelY(int fd,std::string accel)
 
 }
 
+std::string getEncoderDiagX(int fd)
+{
 
+		sendCommand(GetEncDiagPositionX,fd,6);
+		return readReturnValue(fd);
+}
+std::string zeroEncoderDiagX(int fd)
+{
 
+		sendCommand(ZeroEncDiagPositionX,fd,6);
+		return readReturnValue(fd);
+}
 
+std::string getEncoderDiagY(int fd)
+{
+
+		sendCommand(GetEncDiagPositionY,fd,6);
+		return readReturnValue(fd);
+
+}
+std::string zeroEncoderDiagY(int fd)
+{
+
+		sendCommand(ZeroEncDiagPositionY,fd,6);
+		return readReturnValue(fd);
+}
 
 int main()
 {
@@ -558,7 +581,13 @@ getVelocityY(fd);
 //sendCommand(GetEncodersAbsolute,fd,6);
 //readReturnValue(fd);
 
+getEncoderDiagX(fd);
+zeroEncoderDiagX(fd);
+getEncoderDiagY(fd);
+zeroEncoderDiagY(fd);
 
+
+/*
 setVelocityX(fd,"3.000000deg/sec;");
 setVelocityY(fd,"4.000000deg/sec;");
 
@@ -567,7 +596,7 @@ ss<<"1.000000deg/sec";
 ss<<(char)0x1E;
 ss<<";";
 setAccelX(fd,ss.str());
-
+*/
 
 
 //moveAltAz("+80:00:00;","080:00:00;",fd);
