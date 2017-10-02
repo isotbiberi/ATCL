@@ -555,12 +555,12 @@ getAccelY(fd);
 getVelocityX(fd);
 getVelocityY(fd);
 
-sendCommand(GetEncodersAbsolute,fd,6);
-readReturnValue(fd);
+//sendCommand(GetEncodersAbsolute,fd,6);
+//readReturnValue(fd);
 
 
-//setVelocityX(fd,"3.000000deg/sec;");
-//setVelocityY(fd,"4.000000deg/sec;");
+setVelocityX(fd,"3.000000deg/sec;");
+setVelocityY(fd,"4.000000deg/sec;");
 
 
 //setAccelX(fd,"1.000000deg/sec0x1E;");
